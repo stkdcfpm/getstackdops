@@ -1131,8 +1131,7 @@ function qFinish() {
 }
 
 // ── CONTACT FORM ──
-// Replace with your Zapier or Make.com catch webhook URL
-var WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/14481703/4y58dby/';
+var FORMSPREE_URL = 'https://formspree.io/f/mdablrll';
 
 function submitForm() {
   var name  = document.getElementById('cf-name').value.trim();
@@ -1150,21 +1149,27 @@ function submitForm() {
     source:  'getstackdops.com',
     ts:      new Date().toISOString()
   };
-  if (WEBHOOK_URL && WEBHOOK_URL !== 'YOUR_ZAPIER_OR_MAKE_WEBHOOK_URL') {
-    fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    }).catch(function(){});
-  }
-  document.getElementById('f-success').style.display = 'block';
-  ['cf-name','cf-email','cf-company','cf-country','cf-msg'].forEach(function(id){
-    var el = document.getElementById(id); if(el) el.value='';
-  });
-  ['cf-type','cf-sector','cf-vol'].forEach(function(id){
-    var el = document.getElementById(id); if(el) el.value='';
+  fetch(FORMSPREE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(function(res) {
+    if (res.ok) {
+      document.getElementById('f-success').style.display = 'block';
+      ['cf-name','cf-email','cf-company','cf-country','cf-msg'].forEach(function(id){
+        var el = document.getElementById(id); if(el) el.value='';
+      });
+      ['cf-type','cf-sector','cf-vol'].forEach(function(id){
+        var el = document.getElementById(id); if(el) el.value='';
+      });
+    } else {
+      alert('Something went wrong. Please try again or email us directly at hello@getstackdops.com');
+    }
+  }).catch(function() {
+    alert('Could not send message. Please check your connection and try again.');
   });
 }
+
 
 // ── SMOOTH HIGHLIGHT ON NAV CLICK ──
 document.querySelectorAll('nav a[href^="#"]').forEach(function(a) {
