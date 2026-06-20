@@ -242,7 +242,7 @@ footer{background:var(--ink);padding:56px 64px 32px;}
     <a href="#pricing">Pricing</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
-    <a href="https://stkdcfpm.github.io/stackd-ops" target="_blank" class="nav-cta">Launch Portal →</a>
+    <a href="https://app.getstackdops.com" target="_blank" class="nav-cta">Launch Portal →</a>
   </div>
 </nav>
 
@@ -259,19 +259,19 @@ footer{background:var(--ink);padding:56px 64px 32px;}
   </div>
   <div class="hero-r">
     <div class="stat-c">
-      <div class="stat-n">£53,441</div>
+      <div class="stat-n">£60k+</div>
       <div class="stat-l">Invoice revenue managed on Stackd</div>
     </div>
     <div class="stat-c">
-      <div class="stat-n">9</div>
+      <div class="stat-n">10+</div>
       <div class="stat-l">Active supplier relationships tracked</div>
     </div>
     <div class="stat-c">
-      <div class="stat-n">20</div>
+      <div class="stat-n">20+</div>
       <div class="stat-l">SKUs catalogued with live margin tracking</div>
     </div>
     <div class="counter-c">
-      <div class="counter-n"><span class="ldot"></span><span id="shipCount">4</span></div>
+      <div class="counter-n"><span class="ldot"></span>50+</div>
       <div class="counter-l">Active shipments being tracked right now</div>
     </div>
   </div>
@@ -801,11 +801,11 @@ footer{background:var(--ink);padding:56px 64px 32px;}
     </div>
     <div class="about-r">
       <div class="about-stat">
-        <div class="about-sn">v2.9.5</div>
+        <div class="about-sn">v2.9.27</div>
         <div class="about-sl">Current platform version</div>
       </div>
       <div class="about-stat">
-        <div class="about-sn">68</div>
+        <div class="about-sn">213</div>
         <div class="about-sl">Automated tests on every deployment</div>
       </div>
       <div class="about-stat">
@@ -849,7 +849,7 @@ footer{background:var(--ink);padding:56px 64px 32px;}
     <div class="contact-form">
       <h3>Send us a message</h3>
       <div class="f-grid"><div class="f-field"><label>Full name *</label><input type="text" id="cf-name" placeholder="Your name"></div><div class="f-field"><label>Email address *</label><input type="email" id="cf-email" placeholder="your@email.com"></div></div><div class="f-grid"><div class="f-field"><label>Company / Trading name</label><input type="text" id="cf-company" placeholder="Company Ltd / Trading As..."></div><div class="f-field"><label>Country of operation</label><input type="text" id="cf-country" placeholder="United Kingdom"></div></div><div class="f-field" style="display:none"><label>name placeholder</label><input type="text" tabindex="-1" autocomplete="off"></div>
-      
+
       <div class="f-field"><label>Primary sector / product category</label>
         <select id="cf-sector">
           <option value="">Select sector...</option>
@@ -898,7 +898,7 @@ footer{background:var(--ink);padding:56px 64px 32px;}
       </div>
       <div class="c-item">
         <div class="c-item-l">Portal access</div>
-        <div class="c-item-v"><a href="https://stkdcfpm.github.io/stackd-ops" target="_blank">stkdcfpm.github.io/stackd-ops</a></div>
+        <div class="c-item-v"><a href="https://app.getstackdops.com" target="_blank">app.getstackdops.com</a></div>
       </div>
       <div class="c-item">
         <div class="c-item-l">Registered</div>
@@ -907,10 +907,6 @@ footer{background:var(--ink);padding:56px 64px 32px;}
       <div class="c-item">
         <div class="c-item-l">Trade routes served</div>
         <div class="c-item-v">China → Caribbean<br>China → West Africa<br>UK → Caribbean</div>
-      </div>
-      <div class="c-item">
-        <div class="c-item-l">Automation</div>
-        <div class="c-item-v" style="font-size:.82rem;color:rgba(255,255,255,.4);">Form submissions fire a webhook to your Zapier or Make.com workflow. Replace WEBHOOK_URL in the page source to activate auto-responses and CRM routing.</div>
       </div>
       <div class="c-commit">
         <p>We respond to every message within one business day. For trial requests, we'll have you set up and in the portal within 24 hours. No sales calls unless you ask for one.</p>
@@ -932,7 +928,7 @@ footer{background:var(--ink);padding:56px 64px 32px;}
       <a href="#features">Features</a>
       <a href="#tools">Free Tools</a>
       <a href="#pricing">Pricing</a>
-      <a href="https://stkdcfpm.github.io/stackd-ops" target="_blank">Launch Portal</a>
+      <a href="https://app.getstackdops.com" target="_blank">Launch Portal</a>
     </div>
     <div class="foot-col">
       <h4>Company</h4>
@@ -965,14 +961,6 @@ window.addEventListener('scroll', function() {
     nav.style.boxShadow = 'none';
   }
 });
-
-// ── LIVE COUNTER ──
-var baseCount = 4;
-var countEl = document.getElementById('shipCount');
-setInterval(function() {
-  baseCount += Math.random() > 0.85 ? 1 : 0;
-  countEl.textContent = baseCount;
-}, 8000);
 
 // ── TOOLS TABS ──
 function showTool(id) {
@@ -1012,7 +1000,7 @@ var RATES = {
   }
 };
 
-
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
 
 function runLCC() {
   var val = +document.getElementById('lcc-val').value || 0;
@@ -1026,7 +1014,7 @@ function runLCC() {
   if (!val) { alert('Please enter a product value'); return; }
 
   var freight = mode === 'fcl20' ? RATES.fcl20 : mode === 'fcl40' ? RATES.fcl40 : cbm * RATES.lclPerCBM;
-  var origin = RATES.originCharges;
+  var origin = RATES.originCharges[document.getElementById('lcc-origin').value] || 180;
   var destCharge = RATES.destCharges[dest] || 240;
   var ins = val * RATES.insRate;
   var duty = val * (dutyPct / 100);
@@ -1059,18 +1047,16 @@ function runPTC() {
   var buy = +document.getElementById('ptc-buy').value;
   var rate = +document.getElementById('ptc-rate').value || 50;
 
-  // Hours calculation based on operational benchmarks
-  var shipHrs = cont * 2.5;   // tracking + status chasing per container
-  var supHrs = sup * 0.4;     // supplier comms per week
-  var invHrs = cont * 1.2;    // invoice production per shipment
-  var buyHrs = buy * 0.8;     // buyer queries per week
-  var adminHrs = 2.0;         // misc admin
+  var shipHrs = cont * 2.5;
+  var supHrs = sup * 0.4;
+  var invHrs = cont * 1.2;
+  var buyHrs = buy * 0.8;
+  var adminHrs = 2.0;
 
   var totalWkHrs = shipHrs + supHrs + invHrs + buyHrs + adminHrs;
   var totalYrHrs = totalWkHrs * 52;
   var totalCost = totalYrHrs * rate;
 
-  // Stackd cost based on container volume
   var stackdMonthly = cont <= 2 ? 49 : cont <= 5 ? 149 : 399;
   var stackdAnnual = stackdMonthly * 12;
   var saving = totalCost - stackdAnnual;
@@ -1131,13 +1117,15 @@ function qFinish() {
 }
 
 // ── CONTACT FORM ──
-var FORMSPREE_URL = 'https://formspree.io/f/mdablrll';
+var WEB3FORMS_KEY = '68f8c9d3-17eb-47d4-a85b-7b65aedc2310';
 
 function submitForm() {
   var name  = document.getElementById('cf-name').value.trim();
   var email = document.getElementById('cf-email').value.trim();
   if (!name || !email) { alert('Please enter your name and email address'); return; }
   var payload = {
+    access_key: WEB3FORMS_KEY,
+    subject:    '[Stackd] Trial Request — ' + (document.getElementById('cf-company').value.trim() || name),
     name:    name,
     email:   email,
     company: (document.getElementById('cf-company')||{}).value||'',
@@ -1149,7 +1137,7 @@ function submitForm() {
     source:  'getstackdops.com',
     ts:      new Date().toISOString()
   };
-  fetch(FORMSPREE_URL, {
+  fetch('https://api.web3forms.com/submit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify(payload)
@@ -1169,7 +1157,6 @@ function submitForm() {
     alert('Could not send message. Please check your connection and try again.');
   });
 }
-
 
 // ── SMOOTH HIGHLIGHT ON NAV CLICK ──
 document.querySelectorAll('nav a[href^="#"]').forEach(function(a) {
